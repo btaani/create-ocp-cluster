@@ -11,6 +11,7 @@ export NAME=`whoami`-$RANDOM
 yq -i '.metadata.name = strenv(NAME)' install-config.yaml
 
 # 4. Create the cluster
+mkdir cluster 2&>/dev/null
 cp install-config.yaml ./cluster/install-config.yaml
 openshift-install create cluster --dir ./cluster
 
@@ -23,4 +24,6 @@ echo "Cluster API : https://api.$NAME.devcluster.openshift.com:6443"
 echo "Web console : https://console-openshift-console.apps.$NAME.devcluster.openshift.com/"
 echo "Username    : kubeadmin"
 echo "Password    : `cat ./cluster/auth/kubeadmin-password`"
+echo "Created at  : `date  '+%T'`"
+echo "Expires at  : `date -d '+10 hour' '+%T'`"
 echo "----------------------------------------------------------------"
